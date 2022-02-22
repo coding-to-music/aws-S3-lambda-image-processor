@@ -1,5 +1,15 @@
 # Image Processor Function
 
+https://github.com/coding-to-music/aws-S3-lambda-image-processor
+
+Written by Jason Conway-Williams
+
+JCDubs
+
+https://github.com/JCDubs/Image-Processor
+
+https://jcdubs.medium.com/s3-image-processing-lambda-b75052b1dd5e
+
 The Image Processor Function provides functionality to resize and convert images through AWS S3 and lambda.
 
 ## Setup
