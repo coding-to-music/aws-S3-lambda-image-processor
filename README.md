@@ -26,6 +26,28 @@ Before deployment, a sandbox, static site and deployment S3 Buckets should be cr
 
 The `serverless.yml` file has been configured to deploy the lambda to a dev, test or prod environment which is achieved by running the sls deploy command specifying the stage to deploy to. By default, if not specified, the stage is set to 'dev'.
 
+Variables used in serverless.yml:
+
+```java
+bucket: ${self:custom.s3.imageSandboxBucketName.${opt:stage, 'test'}}
+
+stage: ${opt:stage, 'test'}
+region: ${opt:region, 'eu-west-1'}
+
+name: ${self:custom.deploymentBucket.${self:provider.stage}}
+
+IMAGE_SANDBOX_BUCKET: ${self:custom.s3.imageSandboxBucketName.${self:provider.stage}}
+SITE_IMAGES_BUCKET: ${self:custom.s3.imageSiteBucketName.${self:provider.stage}}
+ENV: ${self:custom.env.${self:provider.stage}}
+VERSION: ${file(./package.json):version}
+Resource: "arn:aws:s3:::${self:custom.deploymentBucket.${self:provider.stage}}/\*"
+          "arn:aws:s3:::${self:custom.s3.imageSiteBucketName.${self:provider.stage}}/*"
+Resource: "arn:aws:s3:::${self:custom.s3.imageSandboxBucketName.${self:provider.stage}}/*"
+    environment: ${self:provider.stage}
+    application: ${self:service}
+    product: ImageProcessor
+```
+
 ## Deployment
 
 It is important that the Sharp node module is installed on the operating system it is intended to be run on. A Dockerfile has been provided within this project to deploy the lambda to AWS. The Dockerfile is configured to run in a similar OS to AWS Lambda ensuring that the Sharp node module is installed in the Docker container OS. The following commands should be run to build the docker image and deploy.
@@ -35,6 +57,30 @@ It is important that the Sharp node module is installed on the operating system 
 The lambda should then be deployed with the following command providing the AWS credentials in a volume unless the machine the docker container is being run on has been configured with an IAM role.
 
 `docker run -v ~/.aws:/root/.aws image-proc sls deploy -v -s test`
+
+```java
+Running "serverless" from node_modules
+Serverless: Packaging service...
+Serverless: Excluding development dependencies...
+
+  Serverless Error ---------------------------------------
+
+  Could not locate deployment bucket. Error: Access Denied
+
+  Get Support --------------------------------------------
+     Docs:          docs.serverless.com
+     Bugs:          github.com/serverless/serverless/issues
+     Issues:        forum.serverless.com
+
+  Your Environment Information ---------------------------
+     Operating System:          linux
+     Node Version:              12.20.1
+     Framework Version:         1.63.0
+     Plugin Version:            3.3.0
+     SDK Version:               2.3.0
+     Components Core Version:   1.1.2
+     Components CLI Version:    1.4.0
+```
 
 ## Running Locally
 

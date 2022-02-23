@@ -72,21 +72,21 @@ custom:
     host: 0.0.0.0
     port: 8001
     imageSandboxBucketName:
-      dev: "image-sandbox-dev"
-      test: "image-sandbox-test"
-      prod: "image-sandbox-prod"
+      dev: "my-image-sandbox-dev"
+      test: "my-image-sandbox-test"
+      prod: "my-image-sandbox-prod"
     imageSiteBucketName:
-      dev: "site-images-dev"
-      test: "site-images-test"
-      prod: "site-images-prod"
+      dev: "my-site-images-dev"
+      test: "my-site-images-test"
+      prod: "my-site-images-prod"
   env:
     dev: "dev"
     test: "test"
     prod: "prod"
   deploymentBucket:
-    dev: image-processor-deploy
-    test: image-processor-deploy
-    prod: image-processor-deploy
+    dev: my-image-processor-deploy
+    test: my-image-processor-deploy
+    prod: my-image-processor-deploy
 
 resources:
   Conditions:
